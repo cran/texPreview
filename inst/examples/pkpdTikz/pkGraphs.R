@@ -1,3 +1,36 @@
+require(texPreview)
+
+#regular tex script
+
+tex='\\begin{tabular}{llr}
+  \\hline
+\\multicolumn{2}{c}{Item} \\\\
+\\cline{1-2}
+Animal    & Description & Price (\\$) \\\\
+\\hline
+Gnat      & per gram    & 13.65      \\\\
+& each        & 0.01       \\\\
+Gnu       & stuffed     & 92.50      \\\\
+Emu       & stuffed     & 33.33      \\\\
+Armadillo & frozen      & 8.99       \\\\
+\\hline
+\\end{tabular}'
+
+texPreview(obj = tex)
+
+
+data('iris')
+
+texPreview(obj = xtable::xtable(head(iris,10)))
+  
+tikzEx=readLines('http://www.texample.net/media/tikz/examples/TEX/credit-rationing.tex')
+  usetikz=paste(tikzEx[14:23],collapse="\n")
+  bodytikz=paste(tikzEx[25:90],collapse="\n")
+  
+  texPreview(obj = bodytikz,
+             usrPackages = buildUsepackage(pkg = 'tikz',uselibrary = usetikz))
+
+
 useLib="\\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,arrows.meta,positioning}"
 useLib1="\\usetikzlibrary{arrows,shapes,arrows.meta,positioning}"
 
@@ -12,9 +45,6 @@ texCode=list( g1=list(
                 pkgs=paste(buildUsepackage(pkg = list('tikz'),uselibrary = useLib1),collapse='\n'))
             )
 
-texPreview(obj = texCode$g1$bodyTikz,stem='twoCmt',imgFormat = 'svg',usrPackages = texCode$g1$pkgs,ignore.stdout=T)
-texPreview(obj = texCode$g2$bodyTikz,stem='pdModel',imgFormat = 'svg',usrPackages = texCode$g2$pkgs,ignore.stdout=T)
-texPreview(obj = texCode$g3$bodyTikz,stem='pkModel',imgFormat = 'svg',usrPackages = texCode$g3$pkgs,ignore.stdout=T)
-
-
-
+texPreview(obj = texCode$g1$bodyTikz,usrPackages = texCode$g1$pkgs)
+texPreview(obj = texCode$g2$bodyTikz,usrPackages = texCode$g2$pkgs)
+texPreview(obj = texCode$g3$bodyTikz,usrPackages = texCode$g3$pkgs)

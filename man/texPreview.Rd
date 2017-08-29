@@ -4,34 +4,63 @@
 \alias{texPreview}
 \title{Render and Preview snippets of TeX in R Viewer}
 \usage{
-texPreview(obj, stem, fileDir = NULL, overwrite = T, margin = list(left =
-  10, top = 5, right = 50, bottom = 5), imgFormat = "png",
-  print.xtable.opts = list(), returnType = "viewer",
-  opts.html = list(width = "100\%", height = "100\%"), usrPackages = NULL,
-  engine = c("pdflatex", "xelatex", "lualatex"), ...)
+texPreview(obj, tex_lines = NULL, stem = NULL, fileDir = NULL,
+  overwrite = TRUE, margin = tex_opts$get("margin"),
+  imgFormat = tex_opts$get("imgFormat"),
+  returnType = tex_opts$get("returnType"),
+  resizebox = tex_opts$get("resizebox"), usrPackages = NULL,
+  engine = tex_opts$get("engine"), cleanup = tex_opts$get("cleanup"),
+  keep_pdf = FALSE, tex_message = FALSE,
+  density = tex_opts$get("density"),
+  print.xtable.opts = tex_opts$get("print.xtable.opts"),
+  opts.html = tex_opts$get("opts.html"), ...)
 }
 \arguments{
 \item{obj}{character, TeX script}
 
-\item{stem}{character, name to use in output files}
+\item{tex_lines}{vector of character, in case of special needs, instead of asking 
+texPreview to build up, you may choose to pass in the contents of the 
+complete LaTeX file directly. It should be a vector of character with each 
+element as a line of raw TeX code.}
 
-\item{fileDir}{character, output destination. If NULL a temp.dir() will be used and no output will be saved}
+\item{stem}{character, name to use in output files, Default: NULL}
+
+\item{fileDir}{character, output destination. If NULL a temp.dir() 
+will be used and no output will be saved}
 
 \item{overwrite}{logical, controls if overwriting of output stem* files given their existences}
 
-\item{margin}{table margin for pdflatex call}
+\item{margin}{table margin for pdflatex call, Default: tex_opts$get('margin')}
 
-\item{imgFormat}{character, defines the type of image the PDF is converted to.}
+\item{imgFormat}{character, defines the type of image the PDF is 
+converted to Default: tex_opts$get('imgFormat')}
 
-\item{print.xtable.opts}{list containing arguments to pass to print.table, relevant only if xtable is used as the input}
+\item{returnType}{character, one of "viewer", "html", or "tex" determining appropriate 
+return type for the rendering process, Default: tex_opts$get('returnType')}
 
-\item{returnType}{one of "viewer", "html", or "tex" determining appropriate return type for the rendering process}
+\item{resizebox}{logical, forces a tabular tex object to be constrained on the
+margins of the document, Default: tex_opts$get('resizebox')}
 
-\item{opts.html}{a list of html options, currently height and width.  can be specified as percentage or pixels.}
+\item{usrPackages}{character, vector of usepackage commands, see details for string format}
 
-\item{usrPackages}{character of usepackage commands, see details for string format}
+\item{engine}{character, specifies which latex to pdf engine to use
+('pdflatex','xelatex','lualatex'), Default: tex_opts$get('engine')}
 
-\item{engine}{character specifies which latex to pdf engine to use ('pdflatex' default,'xelatex','lualatex')}
+\item{cleanup}{character, vector of file extensions to clean up after building pdf,
+Default: tex_opts$get('cleanup')}
+
+\item{keep_pdf}{logical, controls if the rendered pdf file should be kept
+or deleted, Default is FALSE}
+
+\item{tex_message}{logical, controls if latex executing messages 
+are displayed in console. Default is FALSE}
+
+\item{density}{numeric, controls the density of the image. Default is 150: tex_opts$get('density)}
+
+\item{print.xtable.opts}{list, contains arguments to pass to print.table, 
+relevant only if xtable is used as the input, Default: tex_opts$get('print.xtable.opts')}
+
+\item{opts.html}{list, html options, Default: tex_opts$get('opts.html')}
 
 \item{...}{passed to \code{system}}
 }
@@ -42,17 +71,20 @@ input TeX script into the function and it renders a pdf and converts it an image
 The function assumes the system has pdflatex installed and it is defined in the PATH. The function does not return anything to R.
 If fileDir is specified then two files are written to the directory. An image file of the name stem with the extension specified in imgFormat.
 The default extension is png.The second file is the TeX script used to create the output of the name stem.tex.   If you do not wish to view the 
-console output, pass the corresponding arguments to \code{...}, e.g., ignore.stdout=T.
+console output, pass the corresponding arguments to \code{...}, e.g., ignore.stdout=TRUE.
 usrPackage accepts a vector of character strings built by the function \code{\link{buildUsepackage}}, of the form
  \\\\usepackage[option1,option2,...]\{package_name\}, see the TeX wikibook for more information \url{https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Packages}.
 }
 \examples{
 data('iris')
-\donttest{
 if(interactive()){
-texPreview(obj = xtable::xtable(head(iris,10)),stem = 'eq',imgFormat = 'svg')
 
-\dontrun{
+#use xtable to create tex output
+ texPreview(obj = xtable::xtable(head(iris,10)))
+
+#use knitr kable to create tex output
+ texPreview(knitr::kable(mtcars, "latex"))
+
 tex='\\\\begin{tabular}{llr}
 \\\\hline
 \\\\multicolumn{2}{c}{Item} \\\\\\\\
@@ -68,15 +100,15 @@ Armadillo & frozen      & 8.99       \\\\\\\\
 \\\\end{tabular}'
 
 texPreview(obj = tex,stem = 'eq',imgFormat = 'svg')
+tikz_example <- system.file('examples/tikz/credit-rationing.tex',package = 'texPreview')
+tikzEx=readLines(tikz_example,warn = FALSE)
 
-tikzEx=readLines('http://www.texample.net/media/tikz/examples/TEX/credit-rationing.tex')
-usetikz=paste(tikzEx[14:23],collapse="\\n")
-bodytikz=paste(tikzEx[25:90],collapse="\\n")
+#use tex_lines parameter to pass full document
+  texPreview(tex_lines = tikzEx)
 
-texPreview(obj = bodytikz,
-stem='tikzTest',imgFormat = 'svg',
-usrPackages = buildUsepackage(pkg = 'tikz',uselibrary = usetikz))
-}
-}
+#use texPreview preamble to build document chunks
+  usetikz=paste(tikzEx[14:23],collapse="\\n")
+  bodytikz=paste(tikzEx[25:90],collapse="\\n")
+  texPreview(obj = bodytikz,usrPackages = buildUsepackage(pkg = 'tikz',uselibrary = usetikz))
 }
 }
