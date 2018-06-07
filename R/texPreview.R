@@ -8,7 +8,7 @@
 #' element as a line of raw TeX code. 
 #' @param stem character, name to use in output files, Default: NULL
 #' @param fileDir character, output destination. If NULL a temp.dir() 
-#' will be used and no output will be saved
+#' will be used and no output will be saved, Default: tex_opts$get('fileDir')
 #' @param overwrite logical, controls if overwriting of output stem* files given their existences
 #' @param margin table margin for pdflatex call, Default: tex_opts$get('margin')
 #' @param imgFormat character, defines the type of image the PDF is 
@@ -79,10 +79,13 @@
 #' @importFrom svgPanZoom svgPanZoom
 #' @importFrom utils installed.packages capture.output
 #' @importFrom xml2 read_xml
+#' @importFrom htmltools html_print tags
+#' @importFrom base64enc base64encode
+#' 
 texPreview <- function (obj, 
                         tex_lines = NULL,
                         stem = NULL,
-                        fileDir = NULL, 
+                        fileDir = tex_opts$get('fileDir'), 
                         overwrite = TRUE, 
                         margin = tex_opts$get('margin'),
                         imgFormat = tex_opts$get('imgFormat'), 
@@ -137,6 +140,11 @@ texPreview <- function (obj,
       if (!"file" %in% names(print.xtable.opts)) print.xtable.opts$file <- file.path(fileDir, paste0(stem,".tex"))
         
       obj <- do.call("print", print.xtable.opts)
+      
+    }else{
+      
+      cat(obj, file= file.path(fileDir, paste0(stem,".tex")), sep= '\n')
+      
     }
 
     if( resizebox ){
@@ -195,17 +203,39 @@ texPreview <- function (obj,
       do.call("print", print.xtable.opts)
   }
 
+  thispath <- normalizePath(file.path(fileDir, paste0(stem,".", imgFormat)))
+  
   if(returnType!='shiny'){
     if(imgFormat=='svg'&'svgPanZoom'%in%rownames(utils::installed.packages())){
-      magick::image_write(imgOut, file.path(fileDir, paste0(stem,".", imgFormat)))
-      xmlSvg <- paste0(readLines(file.path(fileDir, paste0(stem,".", imgFormat))),collapse = '\n')
-      print(svgPanZoom::svgPanZoom(xml2::read_xml(xmlSvg)))
+      
+      magick::image_write(imgOut, thispath)
+      
+      if(returnType=='viewer'){
+        
+        xmlSvg <- paste0(readLines(thispath),collapse = '\n')
+        print(svgPanZoom::svgPanZoom(xml2::read_xml(xmlSvg)))
+        
+      }
     }else{
-      utils::capture.output(x <- print(imgOut))
+      if(!returnType%in%c('tex','beamer')){
+        
+          magick::image_write(imgOut, thispath)
+          htmltools::html_print(htmltools::tags$img(src = sprintf("data:image/%s;base64,%s",imgFormat,base64enc::base64encode(thispath))))
+          
+        }
     } 
   }
 
-  if(!is.null(cleanup)) unlink(list.files(fileDir,pattern = paste0(cleanup,collapse ='|'),full.names = TRUE))
+  if( !is.null(cleanup) ){
+
+    tempDel <- list.files(fileDir,sprintf('%s(.*?)(%s)',stem,paste0(cleanup,collapse ='|')),full.names = TRUE)
+    
+    if(keep_pdf)
+      tempDel<- tempDel[-grep('pdf',tempDel)]
+    
+    unlink(tempDel)
+    
+  }
   
   if(returnType=='viewer') return(NULL)
   
@@ -217,7 +247,10 @@ texPreview <- function (obj,
            )
   } 
   
-  if(returnType%in%c('latex','beamer')) return(writeLines(obj))
-
-
+  if(returnType%in%c('tex','beamer')){
+    cat(obj, file= file.path(fileDir, paste0(stem,".tex")), sep= '\n')
+    writeLines(obj)
+    invisible(obj)
+  }
+  
 }

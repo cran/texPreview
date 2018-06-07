@@ -55,20 +55,22 @@ new_defaults = function(value = list()) {
 #' \code{tex_opts$get()}:
 #'
 #' \Sexpr[results=verbatim]{str(texPreview::tex_opts$get())}
-# @references Usage: \url{https://yihui.name/knitr/objects/}
 #'
-#   A list of available options:
-#   \url{https://yihui.name/knitr/options/#chunk_options}
+#' These options correspond to fields in the direct call to \code{\link{texPreview}}, which are listed in explained
+#' 
+#' in the help manual.
+#'
 #' @note \code{tex_opts_current} is read-only in the sense that it does nothing if
 #'   you call \code{tex_opts_current$set()}; you can only query the options via
 #'   \code{tex_opts_current$get()}.
 #' @export
 #' @examples tex_opts$get('margin')
 tex_opts = new_defaults(list(
+  fileDir = NULL,
   margin = list(left = 10, top=5, right=10, bottom=5),
   imgFormat = "png",
   print.xtable.opts = list(),
-  html.opts = list(width="100%",height="100%"),
+  opts.html = list(width="100%",height="100%"),
   cleanup = c('aux','log','Doc'),
   engine = 'pdflatex',
   returnType = 'viewer',
