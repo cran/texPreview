@@ -1,0 +1,82 @@
+---
+title: "Tests and Coverage"
+date: "`r format(Sys.time(), '%d %B, %Y %H:%M:%S')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+<!--- Placeholder for tests/README.md Do Not Edit--->
+This output is created by
+[covrpage](https://github.com/yonicd/covrpage).
+
+## Coverage
+
+Coverage summary is created using the
+[covr](https://github.com/r-lib/covr) package.
+
+| Object                                        | Coverage (%) |
+| :-------------------------------------------- | :----------: |
+| texPreview                                    |     4.22     |
+| [R/build\_lines.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/build_lines.R)        |     0.00     |
+| [R/buildUsepackage.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/buildUsepackage.R) |     0.00     |
+| [R/getTexPackages.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/getTexPackages.R)   |     0.00     |
+| [R/tex\_build.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_build.R)            |     0.00     |
+| [R/tex\_cleanup.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_cleanup.R)        |     0.00     |
+| [R/tex\_dir\_setup.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_dir_setup.R)   |     0.00     |
+| [R/tex\_image.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_image.R)            |     0.00     |
+| [R/tex\_return.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_return.R)          |     0.00     |
+| [R/tex\_viewer.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/tex_viewer.R)          |     0.00     |
+| [R/texAddin.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/texAddin.R)               |     0.00     |
+| [R/texPreview.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/texPreview.R)           |     0.00     |
+| [R/opts.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/opts.R)                       |     5.88     |
+| [R/opts\_complete.R](https://github.com/metrumresearchgroup/texPreview/tree/master/R/opts_complete.R)    |    17.78     |
+
+<br>
+
+## Unit Tests
+
+Unit Test summary is created using the
+[testthat](https://github.com/r-lib/testthat) package.
+
+    ## All tests were skipped
+
+<details>
+
+<summary> Show Detailed Test Results </summary>
+
+    ## All tests were skipped
+
+</details>
+
+<details>
+
+<summary> Session Info </summary>
+
+| Field    | Value                               |
+| :------- | :---------------------------------- |
+| Version  | R version 3.5.1 (2018-07-02)        |
+| Platform | x86\_64-apple-darwin15.6.0 (64-bit) |
+| Running  | macOS High Sierra 10.13.6           |
+| Language | en\_US                              |
+| Timezone | America/New\_York                   |
+
+| Package  | Version    |
+| :------- | :--------- |
+| testthat | 2.0.0.9000 |
+| covr     | 3.2.0      |
+| covrpage | 0.0.58     |
+
+</details>
+
+<!--- Final Status : skipped --->
