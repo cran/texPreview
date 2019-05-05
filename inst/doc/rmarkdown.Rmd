@@ -1,0 +1,62 @@
+---
+title: "Using texPreview in Rmarkdown HTML Documents"
+author: "Jonathan Sidi"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{texPreview with Rmarkdown}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(texPreview)
+library(magrittr)
+
+tex_opts$set(
+  returnType = knitr::opts_knit$get('rmarkdown.pandoc.to'),
+  resizebox = FALSE  
+)
+
+```
+
+The following examples use `kable` to generate LaTeX table outputs and raw LaTeX to pipe into `tex_preview` to render the in the document.
+
+## Kable Input
+
+```{r testOut}
+
+knitr::kable(head(iris,5),format = 'latex')%>%
+tex_preview()
+
+```
+
+## TeX Input
+
+```{r testOut2}
+tab='
+\\begin{tabular}{llr}
+\\hline
+\\multicolumn{2}{c}{Item} \\\\
+\\cline{1-2}
+Animal    & Description & Price (\\$) \\\\
+\\hline
+Gnat      & per gram    & 13.65      \\\\
+          & each        & 0.01       \\\\
+Gnu       & stuffed     & 92.50      \\\\
+Emu       & stuffed     & 33.33      \\\\
+Armadillo & frozen      & 8.99       \\\\
+\\hline
+\\end{tabular}'
+
+tab%>%
+  tex_preview()
+
+```

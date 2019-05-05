@@ -2,6 +2,7 @@
 % Please edit documentation in R/get_texpackages.R
 \name{get_texpackages}
 \alias{get_texpackages}
+\alias{getTexPackages}
 \title{Get list of TeX packages installed on System}
 \usage{
 get_texpackages()
@@ -18,3 +19,4 @@ If OS is Windows function checks against MikTex else function checks against Tex
 \examples{
 \dontrun{head(get_texpackages())}
 }
+\concept{utils}

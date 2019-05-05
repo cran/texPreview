@@ -6,8 +6,10 @@
 #' character
 #' @examples
 #' \dontrun{head(get_texpackages())}
-
-get_texpackages=function(){
+#' @concept utils
+#' @rdname get_texpackages
+#' @aliases getTexPackages
+get_texpackages <- function(){
   
   if (Sys.info()[1] == "Windows"){
     

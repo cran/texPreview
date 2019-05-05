@@ -2,6 +2,7 @@
 % Please edit documentation in R/build_usepackage.R
 \name{build_usepackage}
 \alias{build_usepackage}
+\alias{buildUsepackage}
 \title{Build usepackage command for TeX document}
 \usage{
 build_usepackage(pkg, options = NULL, uselibrary = NULL,
@@ -42,3 +43,4 @@ options=     list(NULL   ,geom.opts ,NULL),
 uselibrary = list(NULL   ,NULL      ,use.opts)
 ))
 }
+\concept{utils}
