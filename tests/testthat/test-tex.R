@@ -3,25 +3,11 @@ library(texPreview)
 
 testthat::context('core tex function')
 
-  cleanup <- function(path, create = TRUE){
+path <- file.path(tempdir(),'tex')
 
-    unlink(path,recursive = TRUE,force = TRUE)
-    
-    tex_opts$restore()
-    
-    if(create)
-      
-      dir.create(path)
-    
-  }
-  
-  path <- file.path(tempdir(),'tex')
-  
-  dir.create(path)
-  
-  tex_opts$set(returnType = 'tex',fileDir = path)
+cleanup(path)
 
- #testthat::skip_on_cran()
+tex_opts$set(returnType = 'tex',fileDir = path)
   
   testthat::describe('porting to tex',{
   
@@ -32,7 +18,7 @@ testthat::context('core tex function')
       })
       
       it('class of output', {
-        testthat::expect_is(x,'character')
+        testthat::expect_is(x,'texpreview_tex')
       })  
 
   })
@@ -50,7 +36,7 @@ testthat::context('core tex function')
     })
     
     it('class of output', {
-      testthat::expect_is(x,'character')
+      testthat::expect_is(x,'texpreview_tex')
     })
   
   })
@@ -68,7 +54,7 @@ testthat::context('core tex function')
     })
     
     it('class of output', {
-      testthat::expect_is(x,'character')
+      testthat::expect_is(x,'texpreview_tex')
     })
   
   })
@@ -112,7 +98,12 @@ testthat::context('core tex function')
     x <- texPreview::tex_preview(obj = tex)
 
     it('validate benchmark', {
-      testthat::expect_equal(x,readLines(file.path(path,"tex_temp.tex")))
+      
+      bench <- readLines(file.path(path,"tex_temp.tex"))
+      
+      class(bench) <- 'texpreview_tex'
+      
+      testthat::expect_equal(x,bench)
     })
     
   })

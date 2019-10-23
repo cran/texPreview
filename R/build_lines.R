@@ -4,45 +4,24 @@ build_lines <- function(obj,
                         usrPackages,
                         fileDir = tex_opts$get('fileDir'),
                         resizebox = tex_opts$get('resizebox'),
-                        margin = tex_opts$get('margin'),
-                        print.xtable.opts = tex_opts$get('print.xtable.opts')
+                        margin = tex_opts$get('margin')
                         ){
   
-  if ("xtable" %in% class(obj)) {
-    
-    print.xtable.opts$x <- obj
-    
-    print.xtable.opts$comment <- FALSE
-    
-    if (!"file" %in% names(print.xtable.opts)) {
-      
-      print.xtable.opts$file <- file.path(fileDir, paste0(stem,".tex"))
-      
-    }
-    
-    tex_opts$set(print.xtable.opts = print.xtable.opts)
-    
-    obj <- do.call("print", print.xtable.opts)
-    
-  }
-  
   if( resizebox ){
-    
-    obj <- gsub('\\\\begin\\{tabular\\}',
-                '\\\\resizebox\\{\\\\textwidth\\}\\{!\\}\\{\\\\begin\\{tabular\\}',
-                obj)
-    
-    obj <- gsub('\\\\end\\{tabular\\}',
-                '\\\\end\\{tabular\\}\\}',
-                obj)
-    
+      
+    obj <- tex_resize(obj)
+      
   }
   
-  cat(obj, file= file.path(fileDir, paste0(stem,".tex")), sep= '\n')
+  obj <- clean_packages(obj)
+
+  usrPackages <- union(usrPackages,texPreview::build_usepackage(attr(obj,'packages')))
+  
+  cat(obj, file= tex_path(fileDir,stem), sep= '\n')
   
   TMPL <- readLines(system.file('tmpl.tex',package = 'texPreview'))
   
-  input_path <- normalizePath(file.path(fileDir,sprintf('%s.tex',stem)),winslash = .Platform$file.sep)
+  input_path <- normalizePath(tex_path(fileDir,stem),winslash = .Platform$file.sep)
   
   ARGS <- append(margin, list(usrPackages = paste0(usrPackages,collapse = '\n'), file = input_path))
   

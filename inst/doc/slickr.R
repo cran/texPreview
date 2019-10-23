@@ -8,7 +8,6 @@ knitr::opts_chunk$set(
 )
 
 ## ------------------------------------------------------------------------
-library(magrittr)
 library(texPreview)
 library(slickR)
 
@@ -53,7 +52,9 @@ tab%>%
 
 ## ----testOut3------------------------------------------------------------
 
-list.files(objpath,full.names = TRUE,pattern = 'svg')%>%
-  slickR::slickR()
+  slickR::slickR(
+    list.files(objpath,full.names = TRUE,pattern = 'svg'),
+    height = 200,
+    width = '95%')
 
 

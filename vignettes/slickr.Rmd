@@ -1,5 +1,5 @@
 ---
-title: "Using texPreview to create Carousel in Rmarkdown"
+title: "Using texPreview to create Carousels in Rmarkdown"
 author: "Jonathan Sidi"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -20,7 +20,6 @@ knitr::opts_chunk$set(
 ```
 
 ```{r}
-library(magrittr)
 library(texPreview)
 library(slickR)
 ```
@@ -79,7 +78,9 @@ The images created above are placed in a [slickR](https://github.com/metrumresea
 
 ```{r testOut3}
 
-list.files(objpath,full.names = TRUE,pattern = 'svg')%>%
-  slickR::slickR()
+  slickR::slickR(
+    list.files(objpath,full.names = TRUE,pattern = 'svg'),
+    height = 200,
+    width = '95%')
 
 ```

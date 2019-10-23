@@ -6,11 +6,10 @@ knitr::opts_chunk$set(
 
 ## ------------------------------------------------------------------------
 library(texPreview)
-library(magrittr)
 
-tex_opts$set(
-  returnType = knitr::opts_knit$get('rmarkdown.pandoc.to'),
-  resizebox = FALSE  
+tex_opts$set( 
+  returnType = 'html',
+  opts.html   = list(width = '75%', height = '75%')
 )
 
 
