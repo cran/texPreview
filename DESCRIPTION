@@ -1,8 +1,8 @@
 Type: Package
 Package: texPreview
 Title: Compile and Preview Snippets of 'LaTeX' in 'RStudio'
-Version: 1.4.0
-Date: 2019-10-22
+Version: 1.4.1
+Date: 2019-10-27
 Authors@R: 
     c(person(given = "Jonathan",
              family = "Sidi",
@@ -31,8 +31,8 @@ RdMacros: details, lifecycle
 LazyData: false
 NeedsCompilation: no
 RoxygenNote: 6.1.1
-Packaged: 2019-10-23 17:14:27 UTC; yonis
+Packaged: 2019-10-29 16:55:48 UTC; yonis
 Author: Jonathan Sidi [aut, cre],
   Daniel Polhamus [aut]
 Repository: CRAN
-Date/Publication: 2019-10-23 17:50:02 UTC
+Date/Publication: 2019-10-29 18:30:02 UTC
