@@ -3,11 +3,13 @@
 [![](https://cranlogs.r-pkg.org/badges/texPreview)](https://cran.r-project.org/package=texPreview)
 [![Travis-CI Build Status](https://travis-ci.org/metrumresearchgroup/texPreview.svg?branch=master)](https://travis-ci.org/metrumresearchgroup/texPreview)
 [![Coverage Status](https://img.shields.io/codecov/c/github/metrumresearchgroup/texPreview/master.svg)](https://codecov.io/github/metrumresearchgroup/texPreview?branch=master)
-[![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2019_10_28-brightgreen.svg)](http://tinyurl.com/ybkr8fsu)
+[![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2019_12_10-brightgreen.svg)](http://tinyurl.com/ybkr8fsu)
 
 # texPreview
 
-Preview and save images of rendered snippets of LaTeX in RStudio viewer
+Efficiently iterate, refine and share snippets of LaTeX in R with ease.
+
+`texPreview` compiles LaTeX directly into images from the R console to view in the RStudio viewer pane, Shiny apps and RMarkdown documents.
 
 ## Functionality
 

@@ -1,8 +1,8 @@
 Type: Package
 Package: texPreview
-Title: Compile and Preview Snippets of 'LaTeX' in 'RStudio'
-Version: 1.4.2
-Date: 2019-12-01
+Title: Compile and Preview Snippets of 'LaTeX'
+Version: 1.4.3
+Date: 2019-12-10
 Authors@R: 
     c(person(given = "Jonathan",
              family = "Sidi",
@@ -13,10 +13,8 @@ Authors@R:
              role = "aut",
              email = "danp@metrumrg.com"))
 Maintainer: Jonathan Sidi <yonis@metrumrg.com>
-Description: Compile and preview snippets of 'LaTeX'. Can be
-    used directly from the R console, from 'RStudio', in Shiny apps and R
-    Markdown documents. Must have 'pdflatex' or 'xelatex' or 'lualatex' in
-    'PATH'.
+Description: Compile snippets of 'LaTeX' directly into images from the R console 
+  to view in the 'RStudio' viewer pane, Shiny apps and 'RMarkdown' documents.
 License: GPL-2 | GPL-3
 URL: https://github.com/metrumresearchgroup/texPreview
 BugReports: https://github.com/metrumresearchgroup/texPreview/issues
@@ -30,8 +28,8 @@ RdMacros: details, lifecycle
 LazyData: false
 NeedsCompilation: no
 RoxygenNote: 6.1.1
-Packaged: 2019-12-05 15:57:21 UTC; yonis
+Packaged: 2019-12-11 23:11:42 UTC; yonis
 Author: Jonathan Sidi [aut, cre],
   Daniel Polhamus [aut]
 Repository: CRAN
-Date/Publication: 2019-12-05 16:30:02 UTC
+Date/Publication: 2019-12-12 07:10:02 UTC
