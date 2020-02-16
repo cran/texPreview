@@ -21,7 +21,7 @@ if(!dir.exists(objpath))
 tex_opts$set(
   fileDir    = objpath, # path to save output
   returnType = 'html', # return images ready for html 
-  imgFormat  = 'svg' # return svg images
+  imgFormat  = 'png' # return png images
   )
 
 ## ----kable---------------------------------------------------------------
@@ -53,7 +53,7 @@ tab%>%
 ## ----testOut3------------------------------------------------------------
 
   slickR::slickR(
-    list.files(objpath,full.names = TRUE,pattern = 'svg'),
+    list.files(objpath,full.names = TRUE,pattern = 'png'),
     height = 200,
     width = '95%')
 

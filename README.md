@@ -3,7 +3,7 @@
 [![](https://cranlogs.r-pkg.org/badges/texPreview)](https://cran.r-project.org/package=texPreview)
 [![Travis-CI Build Status](https://travis-ci.org/metrumresearchgroup/texPreview.svg?branch=master)](https://travis-ci.org/metrumresearchgroup/texPreview)
 [![Coverage Status](https://img.shields.io/codecov/c/github/metrumresearchgroup/texPreview/master.svg)](https://codecov.io/github/metrumresearchgroup/texPreview?branch=master)
-[![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2019_12_10-brightgreen.svg)](http://tinyurl.com/ybkr8fsu)
+[![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2020_02_14-brightgreen.svg)](http://tinyurl.com/ybkr8fsu)
 
 # texPreview
 
@@ -28,7 +28,9 @@ Efficiently iterate, refine and share snippets of LaTeX in R with ease.
   - __System Requirements__: 
     - Must have pdflatex in PATH, Windows users can install by running [installr::install.MikTeX](http://talgalili.github.io/installr/reference/install.MikTeX.html)
     - TeX libraries that are used: `standalone`, `xcolor`, `booktabs`, `multirow`, `array`, `helvet`, `amsmath`, `rotating`, `listings`, `graphicx`, `setspace`, `caption`
-
+      - To Check if the system is in compliance with these libraries run `texPreview::check_requirements()`.
+    - Ghostscript: If you are installing TeX with [tinytex](https://github.com/yihui/tinytex) make sure to install ghostscript onto your system.
+    
 ## Examples
 
 ### Basic

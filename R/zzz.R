@@ -6,32 +6,21 @@ wenv_init <- function(){
     assign('build' , FALSE ,envir = wenv)
 }
 
-check_requirments <- function(){
-
-  
-  chk <- sapply(tex_pkgs(),check_package)
-  
-  if(!all(chk)){
-    warning(sprintf('missing tex packages needed for texPreview: %s', paste0(names(chk)[!chk],collapse = ', ')))
-  }  
-  
-  chk
-}
-
 .onLoad <- function(lib,pkg) {
   wenv_init()
   if(interactive()){
-    check_requirments()
+    check_requirements()
     rc.options(custom.completer = completeme)
     register_completion(thispkg = populate) 
   }
+  register_eng_texpreview('texpreview', eng_texpreview)
 }
 
 
 .onAttach <- function(lib,pkg) {
   wenv_init()
   if(interactive()){
-    check_requirments()
+    check_requirements()
     rc.options(custom.completer = completeme)
     register_completion(thispkg = populate) 
   }

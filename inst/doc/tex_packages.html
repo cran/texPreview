@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -13,7 +12,7 @@
 
 <meta name="author" content="Jonathan Sidi" />
 
-<meta name="date" content="2019-12-11" />
+<meta name="date" content="2020-02-15" />
 
 <title>Building usepackage TeX commands</title>
 
@@ -21,9 +20,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -33,14 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -49,9 +50,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -304,37 +305,37 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Building usepackage TeX commands</h1>
 <h4 class="author">Jonathan Sidi</h4>
-<h4 class="date">2019-12-11</h4>
+<h4 class="date">2020-02-15</h4>
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(texPreview)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(texPreview)</span></code></pre></div>
 <p>texPreview comes with <code>LaTeX</code> packages built in for each render, but the user can add any <code>TeX</code> library that they have installed on the machine using <code>build_usepackage</code>. This object can then be used in the <code>usrPackages</code> parameter in <code>tex_preview</code>.</p>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
 <div id="usepackage" class="section level3">
 <h3>usepackage</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage{xcolor}&quot;</code></pre>
 </div>
 <div id="usepackage-with-options" class="section level3">
 <h3>usepackage with options</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>,<span class="dt">options =</span> <span class="st">&#39;usenames&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>,<span class="dt">options =</span> <span class="st">&#39;usenames&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage[usenames]{xcolor}&quot;</code></pre>
 </div>
 <div id="vectorized-usepackage" class="section level3">
 <h3>vectorized usepackage</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">geom.opts=<span class="kw">c</span>(<span class="st">&#39;paperwidth=35cm&#39;</span>,<span class="st">&#39;paperheight=35cm&#39;</span>,<span class="st">&#39;left=2.5cm&#39;</span>,<span class="st">&#39;top=2.5cm&#39;</span>)</a>
-<a class="sourceLine" id="cb6-2" title="2">use.opts=<span class="st">&quot;</span><span class="ch">\\</span><span class="st">usetikzlibrary{mindmap,backgrounds}&quot;</span></a>
-<a class="sourceLine" id="cb6-3" title="3"></a>
-<a class="sourceLine" id="cb6-4" title="4">m &lt;-<span class="st"> </span><span class="kw">mapply</span>(</a>
-<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">FUN        =</span> build_usepackage,</a>
-<a class="sourceLine" id="cb6-6" title="6">  <span class="dt">pkg        =</span> <span class="kw">list</span>(<span class="st">&#39;times&#39;</span>,<span class="st">&#39;geometry&#39;</span>,<span class="st">&#39;tikz&#39;</span>),</a>
-<a class="sourceLine" id="cb6-7" title="7">  <span class="dt">options    =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,geom.opts ,<span class="ot">NULL</span>),</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">uselibrary =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,<span class="ot">NULL</span>      ,use.opts)</a>
-<a class="sourceLine" id="cb6-9" title="9">)</a>
-<a class="sourceLine" id="cb6-10" title="10"></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="kw">unlist</span>(m)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>geom.opts=<span class="kw">c</span>(<span class="st">&#39;paperwidth=35cm&#39;</span>,<span class="st">&#39;paperheight=35cm&#39;</span>,<span class="st">&#39;left=2.5cm&#39;</span>,<span class="st">&#39;top=2.5cm&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>use.opts=<span class="st">&quot;</span><span class="ch">\\</span><span class="st">usetikzlibrary{mindmap,backgrounds}&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>m &lt;-<span class="st"> </span><span class="kw">mapply</span>(</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="dt">FUN        =</span> build_usepackage,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="dt">pkg        =</span> <span class="kw">list</span>(<span class="st">&#39;times&#39;</span>,<span class="st">&#39;geometry&#39;</span>,<span class="st">&#39;tikz&#39;</span>),</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="dt">options    =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,geom.opts ,<span class="ot">NULL</span>),</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="dt">uselibrary =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,<span class="ot">NULL</span>      ,use.opts)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="kw">unlist</span>(m)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage{times}&quot;                                                          
 ## [2] &quot;\\usepackage[paperwidth=35cm,paperheight=35cm,left=2.5cm,top=2.5cm]{geometry}&quot;
 ## [3] &quot;\\usepackage{tikz}&quot;                                                           
