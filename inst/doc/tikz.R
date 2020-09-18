@@ -1,13 +1,13 @@
-## ---- include = FALSE----------------------------------------------------
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 
-## ----setup---------------------------------------------------------------
+## ----setup--------------------------------------------------------------------
 library(texPreview)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # add tikz support to tex_opts
 use_lib <- "\\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,arrows.meta,positioning}"
 
@@ -22,22 +22,22 @@ tex_opts$set(
   usrPackages = build_usepackage(pkg = 'tikz',uselibrary = use_lib)
 )
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 tikz_examples <- list.files(system.file('examples/tikz',package = 'texPreview'),
                           pattern = 'tex$',full.names = TRUE)
 tikz_code <- lapply(tikz_examples,
                     function(x) paste0(readLines(x),collapse = '\n'))
 names(tikz_code) <- basename(tikz_examples)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 tex_preview(obj = tikz_code$pk_model.tex,stem = 'tikz-1')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 details::details(tikz_code$pd_model.tex,summary = 'Click to view TeX',lang = 'tex')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 tex_preview(tex_lines = tikz_code$credit_rationing.tex,stem = 'tikz-2')
 
-## ----echo=FALSE----------------------------------------------------------
+## ----echo=FALSE---------------------------------------------------------------
 details::details(tikz_code$credit_rationing.tex,summary = 'Click to view TeX',lang = 'tex')
 

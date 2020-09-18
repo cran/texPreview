@@ -4,7 +4,7 @@ author: "Jonathan Sidi"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{texPreview Carousels}
+  %\VignetteIndexEntry{Using texPreview to create Carousels in Rmarkdown}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.keep = "all",
   out.width = '75%',
-  dev = c("png", "svg")
+  eval = !identical(Sys.getenv("NOT_CRAN"), "true")
 )
 ```
 
@@ -74,7 +74,7 @@ tab%>%
 
 ## Carousel
 
-The images created above are placed in a [slickR](https://github.com/metrumresearchgroup/slickr) carousel.
+The images created above are placed in a [slickR](https://github.com/yonicd/slickr) carousel.
 
 ```{r testOut3}
 
