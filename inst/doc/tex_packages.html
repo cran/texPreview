@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jonathan Sidi" />
 
-<meta name="date" content="2020-09-17" />
+<meta name="date" content="2020-12-10" />
 
 <title>Building usepackage TeX commands</title>
 
@@ -29,22 +29,54 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
 document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
   }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
 });
 </script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -331,37 +363,37 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Building usepackage TeX commands</h1>
 <h4 class="author">Jonathan Sidi</h4>
-<h4 class="date">2020-09-17</h4>
+<h4 class="date">2020-12-10</h4>
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(texPreview)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texPreview)</span></code></pre></div>
 <p>texPreview comes with <code>LaTeX</code> packages built in for each render, but the user can add any <code>TeX</code> library that they have installed on the machine using <code>build_usepackage</code>. This object can then be used in the <code>usrPackages</code> parameter in <code>tex_preview</code>.</p>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
 <div id="usepackage" class="section level3">
 <h3>usepackage</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build_usepackage</span>(<span class="at">pkg =</span> <span class="st">&#39;xcolor&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage{xcolor}&quot;</code></pre>
 </div>
 <div id="usepackage-with-options" class="section level3">
 <h3>usepackage with options</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;xcolor&#39;</span>,<span class="dt">options =</span> <span class="st">&#39;usenames&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">build_usepackage</span>(<span class="at">pkg =</span> <span class="st">&#39;xcolor&#39;</span>,<span class="at">options =</span> <span class="st">&#39;usenames&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage[usenames]{xcolor}&quot;</code></pre>
 </div>
 <div id="vectorized-usepackage" class="section level3">
 <h3>vectorized usepackage</h3>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>geom.opts=<span class="kw">c</span>(<span class="st">&#39;paperwidth=35cm&#39;</span>,<span class="st">&#39;paperheight=35cm&#39;</span>,<span class="st">&#39;left=2.5cm&#39;</span>,<span class="st">&#39;top=2.5cm&#39;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>use.opts=<span class="st">&quot;</span><span class="ch">\\</span><span class="st">usetikzlibrary{mindmap,backgrounds}&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a>m &lt;-<span class="st"> </span><span class="kw">mapply</span>(</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="dt">FUN        =</span> build_usepackage,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="dt">pkg        =</span> <span class="kw">list</span>(<span class="st">&#39;times&#39;</span>,<span class="st">&#39;geometry&#39;</span>,<span class="st">&#39;tikz&#39;</span>),</span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="dt">options    =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,geom.opts ,<span class="ot">NULL</span>),</span>
-<span id="cb6-8"><a href="#cb6-8"></a>  <span class="dt">uselibrary =</span> <span class="kw">list</span>(<span class="ot">NULL</span>   ,<span class="ot">NULL</span>      ,use.opts)</span>
-<span id="cb6-9"><a href="#cb6-9"></a>)</span>
-<span id="cb6-10"><a href="#cb6-10"></a></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="kw">unlist</span>(m)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>geom.opts<span class="ot">=</span><span class="fu">c</span>(<span class="st">&#39;paperwidth=35cm&#39;</span>,<span class="st">&#39;paperheight=35cm&#39;</span>,<span class="st">&#39;left=2.5cm&#39;</span>,<span class="st">&#39;top=2.5cm&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>use.opts<span class="ot">=</span><span class="st">&quot;</span><span class="sc">\\</span><span class="st">usetikzlibrary{mindmap,backgrounds}&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mapply</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">FUN        =</span> build_usepackage,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">pkg        =</span> <span class="fu">list</span>(<span class="st">&#39;times&#39;</span>,<span class="st">&#39;geometry&#39;</span>,<span class="st">&#39;tikz&#39;</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">options    =</span> <span class="fu">list</span>(<span class="cn">NULL</span>   ,geom.opts ,<span class="cn">NULL</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">uselibrary =</span> <span class="fu">list</span>(<span class="cn">NULL</span>   ,<span class="cn">NULL</span>      ,use.opts)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">unlist</span>(m)</span></code></pre></div>
 <pre><code>## [1] &quot;\\usepackage{times}&quot;                                                          
 ## [2] &quot;\\usepackage[paperwidth=35cm,paperheight=35cm,left=2.5cm,top=2.5cm]{geometry}&quot;
 ## [3] &quot;\\usepackage{tikz}&quot;                                                           

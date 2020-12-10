@@ -1,8 +1,8 @@
 Type: Package
 Package: texPreview
 Title: Compile and Preview Snippets of 'LaTeX'
-Version: 1.4.6
-Date: 2020-09-17
+Version: 1.5
+Date: 2020-12-10
 Authors@R: 
     c(person(given = "Jonathan",
              family = "Sidi",
@@ -22,16 +22,16 @@ Depends: R (>= 3.3.0)
 Imports: base64enc, details, fs, htmltools, knitr, lifecycle, magick,
         magrittr, rematch2, rstudioapi, svgPanZoom, utils, whisker,
         xml2
-Suggests: covr, kableExtra, nlme, pdftools, rmarkdown, shiny, slickR,
-        testthat, texreg, xtable
+Suggests: covr, kableExtra, nlme, pdftools, rmarkdown, shiny, testthat,
+        texreg, xtable
 VignetteBuilder: knitr
 RdMacros: details, lifecycle
 LazyData: false
 NeedsCompilation: no
 RoxygenNote: 7.1.1
 License: MIT + file LICENSE
-Packaged: 2020-09-18 00:13:51 UTC; yonis
+Packaged: 2020-12-10 13:21:45 UTC; yonis
 Author: Jonathan Sidi [aut, cre],
   Daniel Polhamus [aut]
 Repository: CRAN
-Date/Publication: 2020-09-18 08:30:03 UTC
+Date/Publication: 2020-12-10 13:50:02 UTC
