@@ -15,7 +15,7 @@ tex_opts$set(
 
 ## ----testOut------------------------------------------------------------------
 
-knitr::kable(head(iris,5),format = 'latex')%>%
+knitr::kable(head(iris,5),format = 'latex') |>
 tex_preview()
 
 
@@ -35,7 +35,7 @@ Armadillo & frozen      & 8.99       \\\\
 \\hline
 \\end{tabular}'
 
-tab%>%
+tab |>
   tex_preview()
 
 

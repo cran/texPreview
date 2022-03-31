@@ -125,9 +125,9 @@
 #' 
 #' # knitr kable
 #' 
-#'  mtcars%>%
-#'    head()%>%
-#'    knitr::kable("latex")%>%
+#'  mtcars |>
+#'    head() |>
+#'    knitr::kable("latex") |>
 #'    tex_preview()
 #' 
 #' # with svg output pan/zoom is enabled in the internal viewer
@@ -233,7 +233,7 @@ tex_preview.default <- function(obj,
   
   class(tab_lines) <- sprintf('texpreview_%s',tex_opts$get('returnType'))
   
-  tex_log <- tex_build(tex_lines,stem,tex_message,...)
+  tex_log <- tex_build(tex_lines, stem, tex_message, ...)
 
   keep_log <- attr(tex_log,'error')
   

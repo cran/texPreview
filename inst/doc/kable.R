@@ -25,22 +25,22 @@ readLines(tex_file)
 
 ## -----------------------------------------------------------------------------
 
-kbl <- tex_file%>%
+kbl <- tex_file |>
   texPreview::as.kable()
 
 
 ## -----------------------------------------------------------------------------
 
-kbl%>%
+kbl |>
   texPreview::tex_preview()
 
 
 ## -----------------------------------------------------------------------------
 
-kbl%>%  
+kbl |>  
   kableExtra::collapse_rows(columns = 1:2, 
                             latex_hline = "major", 
-                            valign = "middle")%>%
+                            valign = "middle") |>
   texPreview::tex_preview()
 
 
