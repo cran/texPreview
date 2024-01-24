@@ -1,5 +1,6 @@
-\documentclass[varwidth, border={ {{left}} {{top}} {{right}} {{bottom}} }]{standalone}
-\usepackage[usenames,dvispnames,svgnames,table]{xcolor}
+\documentclass[border={ {{left}} {{top}} {{right}} {{bottom}} }]{standalone}
+\usepackage{varwidth}
+\usepackage[dvipsnames*,svgnames,table]{xcolor}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{array}
@@ -14,5 +15,7 @@
 \captionsetup{labelformat=empty}
 {{{usrPackages}}}
 \begin{document}
+\begin{varwidth}{\linewidth}
 \input{{{file}}}
+\end{varwidth}
 \end{document}

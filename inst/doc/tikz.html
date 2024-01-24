@@ -14,7 +14,6 @@
 
 <title>Using texPreview with tikz</title>
 
-<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,28 +35,26 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -66,9 +63,9 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -108,13 +105,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -126,7 +130,187 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -143,181 +327,182 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <p>texPreview can be used for any TeX input beyond tabular environments, such as <code>tikz</code>. In the following examples we input a <code>tikzpicture</code> and an entire TeX file that contains a <code>tikz</code> environment.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(texPreview)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add tikz support to tex_opts</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>use_lib <span class="ot">&lt;-</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,arrows.meta,positioning}&quot;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>objpath <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="fu">getwd</span>(),<span class="st">&quot;tikz_files/figure-html&quot;</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">dir.exists</span>(objpath))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dir.create</span>(objpath,<span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>tex_opts<span class="sc">$</span><span class="fu">set</span>(</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fileDir    =</span> objpath, <span class="co"># path to save output</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">returnType  =</span> <span class="st">&#39;html&#39;</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">usrPackages =</span> <span class="fu">build_usepackage</span>(<span class="at">pkg =</span> <span class="st">&#39;tikz&#39;</span>,<span class="at">uselibrary =</span> use_lib)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tikz_examples <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">system.file</span>(<span class="st">&#39;examples/tikz&#39;</span>,<span class="at">package =</span> <span class="st">&#39;texPreview&#39;</span>),</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">pattern =</span> <span class="st">&#39;tex$&#39;</span>,<span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tikz_code <span class="ot">&lt;-</span> <span class="fu">lapply</span>(tikz_examples,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="fu">readLines</span>(x),<span class="at">collapse =</span> <span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span>))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tikz_code) <span class="ot">&lt;-</span> <span class="fu">basename</span>(tikz_examples)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(texPreview)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># add tikz support to tex_opts</span></a>
+<a class="sourceLine" id="cb2-2" title="2">use_lib &lt;-<span class="st"> &quot;</span><span class="ch">\\</span><span class="st">usetikzlibrary{arrows,shapes,decorations,automata,backgrounds,arrows.meta,positioning}&quot;</span></a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4">objpath &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">getwd</span>(),<span class="st">&quot;tikz_files/figure-html&quot;</span>)</a>
+<a class="sourceLine" id="cb2-5" title="5"></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="cf">if</span>(<span class="op">!</span><span class="kw">dir.exists</span>(objpath))</a>
+<a class="sourceLine" id="cb2-7" title="7">  <span class="kw">dir.create</span>(objpath,<span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9">tex_opts<span class="op">$</span><span class="kw">set</span>(</a>
+<a class="sourceLine" id="cb2-10" title="10">  <span class="dt">fileDir    =</span> objpath, <span class="co"># path to save output</span></a>
+<a class="sourceLine" id="cb2-11" title="11">  <span class="dt">returnType  =</span> <span class="st">&#39;html&#39;</span>,</a>
+<a class="sourceLine" id="cb2-12" title="12">  <span class="dt">usrPackages =</span> <span class="kw">build_usepackage</span>(<span class="dt">pkg =</span> <span class="st">&#39;tikz&#39;</span>,<span class="dt">uselibrary =</span> use_lib)</a>
+<a class="sourceLine" id="cb2-13" title="13">)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">tikz_examples &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="kw">system.file</span>(<span class="st">&#39;examples/tikz&#39;</span>,<span class="dt">package =</span> <span class="st">&#39;texPreview&#39;</span>),</a>
+<a class="sourceLine" id="cb3-2" title="2">                          <span class="dt">pattern =</span> <span class="st">&#39;tex$&#39;</span>,<span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb3-3" title="3">tikz_code &lt;-<span class="st"> </span><span class="kw">lapply</span>(tikz_examples,</a>
+<a class="sourceLine" id="cb3-4" title="4">                    <span class="cf">function</span>(x) <span class="kw">paste0</span>(<span class="kw">readLines</span>(x),<span class="dt">collapse =</span> <span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>))</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="kw">names</span>(tikz_code) &lt;-<span class="st"> </span><span class="kw">basename</span>(tikz_examples)</a></code></pre></div>
 <div id="tikzpicture" class="section level2">
 <h2>tikzpicture</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tex_preview</span>(<span class="at">obj =</span> tikz_code<span class="sc">$</span>pk_model.tex,<span class="at">stem =</span> <span class="st">&#39;tikz-1&#39;</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: Package pgf Warning: Snakes have been superseded by decorations. Please use the</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  decoration libraries instead of the snakes library on input line 14.</span></span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="308" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">tex_preview</span>(<span class="dt">obj =</span> tikz_code<span class="op">$</span>pk_model.tex,<span class="dt">stem =</span> <span class="st">&#39;tikz-1&#39;</span>)</a></code></pre></div>
+<div class="figure">
+<img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-4" />
+<p class="caption">plot of chunk unnamed-chunk-4</p>
+</div>
 <details closed>
-<summary>
-<span title="Click to Expand"> Click to view TeX </span>
-</summary>
-<div class="sourceCode" id="cb5"><pre class="sourceCode tex"><code class="sourceCode latex"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">tikzpicture</span>}[</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    mysquare/.style={</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    rectangle,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    draw=black,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    fill=white,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    fill opacity = 0.3,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    text opacity=1,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    inner sep=0pt,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    minimum size=40pt,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    font=<span class="fu">\small</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    align=center},</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    myarrow/.style={-Stealth},</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    node distance=0.6cm and 1.0cm</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  ]</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare] (c1) {Prol};</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare,draw=white,minimum size=20pt,below left= of c1] (e) {<span class="ss">$E_{drug}$</span>};</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare, minimum size=30pt,right=of c1] (t1) {Transit<span class="fu">\\</span>1};</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare, minimum size=30pt, right=of t1] (t2) {Transit<span class="fu">\\</span>2};</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare, minimum size=30pt, right=of t2] (t3) {Transit<span class="fu">\\</span>3};</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare, right=of t3] (c2) {Circ};</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare,draw=white,below= of c2] (k) {};</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\node</span>[mysquare,draw=white,minimum size=20pt,font=<span class="fu">\small</span>,above left= of c1] (kp) {<span class="ss">$k_{prol}(=k_{tr})$</span>};</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\foreach</span> <span class="fu">\i</span>/<span class="fu">\j</span>/<span class="fu">\txt</span>/<span class="fu">\p</span>/<span class="fu">\r</span> in {<span class="co">% start node/end node/text/position/rotation</span></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      c1/t1/<span class="ss">$k_{tr}$</span>/above/0,</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      t1/t2/<span class="ss">$k_{tr}$</span>/above/0,</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>      t2/t3/<span class="ss">$k_{tr}$</span>/above/0,</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      t3/c2/<span class="ss">$k_{tr}$</span>/above/0,</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      c2/k/<span class="ss">$k_{circ}(=k_{tr})$</span>/right/90</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span> [myarrow] (<span class="fu">\i</span>) -- node[sloped,font=<span class="fu">\small</span>,<span class="fu">\p</span>,rotate=<span class="fu">\r</span>] {<span class="fu">\txt</span>} (<span class="fu">\j</span>);</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\draw</span> [-Stealth] (c2) edge[in=85,out=90,looseness=0.5] node[above]{Feedback=<span class="ss">$</span><span class="sc">\left</span><span class="ss">( </span><span class="sc">\frac</span><span class="ss">{Circ_0}{Circ} </span><span class="sc">\right</span><span class="ss">)^</span><span class="sc">\gamma</span><span class="ss">$</span>}(c1);</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\path</span> (c2) edge[in=315,out=225,looseness=0.5] node[below]{MTT}(c1);</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\draw</span> [-Stealth] (c1) edge [out=95,in=150,looseness=8] node[above left] {} (c1);</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">\draw</span> [-Stealth] (e) edge [out=90,in=270] node[left] {} (kp);</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">tikzpicture</span>}</span></code></pre></div>
+<p><summary> <span title="Click to Expand"> Click to view TeX </span> </summary></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode tex"><code class="sourceCode latex"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">\begin</span>{<span class="ex">tikzpicture</span>}[</a>
+<a class="sourceLine" id="cb5-3" title="3">    mysquare/.style={</a>
+<a class="sourceLine" id="cb5-4" title="4">    rectangle,</a>
+<a class="sourceLine" id="cb5-5" title="5">    draw=black,</a>
+<a class="sourceLine" id="cb5-6" title="6">    fill=white,</a>
+<a class="sourceLine" id="cb5-7" title="7">    fill opacity = 0.3,</a>
+<a class="sourceLine" id="cb5-8" title="8">    text opacity=1,</a>
+<a class="sourceLine" id="cb5-9" title="9">    inner sep=0pt,</a>
+<a class="sourceLine" id="cb5-10" title="10">    minimum size=40pt,</a>
+<a class="sourceLine" id="cb5-11" title="11">    font=<span class="fu">\small</span>,</a>
+<a class="sourceLine" id="cb5-12" title="12">    align=center},</a>
+<a class="sourceLine" id="cb5-13" title="13">    myarrow/.style={-Stealth},</a>
+<a class="sourceLine" id="cb5-14" title="14">    node distance=0.6cm and 1.0cm</a>
+<a class="sourceLine" id="cb5-15" title="15">  ]</a>
+<a class="sourceLine" id="cb5-16" title="16"></a>
+<a class="sourceLine" id="cb5-17" title="17">  <span class="fu">\node</span>[mysquare] (c1) {Prol};</a>
+<a class="sourceLine" id="cb5-18" title="18">  <span class="fu">\node</span>[mysquare,draw=white,minimum size=20pt,below left= of c1] (e) {<span class="ss">$E_{drug}$</span>};</a>
+<a class="sourceLine" id="cb5-19" title="19">  <span class="fu">\node</span>[mysquare, minimum size=30pt,right=of c1] (t1) {Transit<span class="fu">\\</span>1};</a>
+<a class="sourceLine" id="cb5-20" title="20">  <span class="fu">\node</span>[mysquare, minimum size=30pt, right=of t1] (t2) {Transit<span class="fu">\\</span>2};</a>
+<a class="sourceLine" id="cb5-21" title="21">  <span class="fu">\node</span>[mysquare, minimum size=30pt, right=of t2] (t3) {Transit<span class="fu">\\</span>3};</a>
+<a class="sourceLine" id="cb5-22" title="22">  <span class="fu">\node</span>[mysquare, right=of t3] (c2) {Circ};</a>
+<a class="sourceLine" id="cb5-23" title="23">  <span class="fu">\node</span>[mysquare,draw=white,below= of c2] (k) {};</a>
+<a class="sourceLine" id="cb5-24" title="24">  <span class="fu">\node</span>[mysquare,draw=white,minimum size=20pt,font=<span class="fu">\small</span>,above left= of c1] (kp) {<span class="ss">$k_{prol}(=k_{tr})$</span>};</a>
+<a class="sourceLine" id="cb5-25" title="25"></a>
+<a class="sourceLine" id="cb5-26" title="26">    <span class="fu">\foreach</span> <span class="fu">\i</span>/<span class="fu">\j</span>/<span class="fu">\txt</span>/<span class="fu">\p</span>/<span class="fu">\r</span> in {<span class="co">% start node/end node/text/position/rotation</span></a>
+<a class="sourceLine" id="cb5-27" title="27">      c1/t1/<span class="ss">$k_{tr}$</span>/above/0,</a>
+<a class="sourceLine" id="cb5-28" title="28">      t1/t2/<span class="ss">$k_{tr}$</span>/above/0,</a>
+<a class="sourceLine" id="cb5-29" title="29">      t2/t3/<span class="ss">$k_{tr}$</span>/above/0,</a>
+<a class="sourceLine" id="cb5-30" title="30">      t3/c2/<span class="ss">$k_{tr}$</span>/above/0,</a>
+<a class="sourceLine" id="cb5-31" title="31">      c2/k/<span class="ss">$k_{circ}(=k_{tr})$</span>/right/90</a>
+<a class="sourceLine" id="cb5-32" title="32">    }</a>
+<a class="sourceLine" id="cb5-33" title="33">    <span class="fu">\draw</span> [myarrow] (<span class="fu">\i</span>) -- node[sloped,font=<span class="fu">\small</span>,<span class="fu">\p</span>,rotate=<span class="fu">\r</span>] {<span class="fu">\txt</span>} (<span class="fu">\j</span>);</a>
+<a class="sourceLine" id="cb5-34" title="34"></a>
+<a class="sourceLine" id="cb5-35" title="35">  <span class="fu">\draw</span> [-Stealth] (c2) edge[in=85,out=90,looseness=0.5] node[above]{Feedback=<span class="ss">$</span><span class="sc">\left</span><span class="ss">( </span><span class="sc">\frac</span><span class="ss">{Circ_0}{Circ} </span><span class="sc">\right</span><span class="ss">)^</span><span class="sc">\gamma</span><span class="ss">$</span>}(c1);</a>
+<a class="sourceLine" id="cb5-36" title="36"></a>
+<a class="sourceLine" id="cb5-37" title="37">  <span class="fu">\path</span> (c2) edge[in=315,out=225,looseness=0.5] node[below]{MTT}(c1);</a>
+<a class="sourceLine" id="cb5-38" title="38"></a>
+<a class="sourceLine" id="cb5-39" title="39">  <span class="fu">\draw</span> [-Stealth] (c1) edge [out=95,in=150,looseness=8] node[above left] {} (c1);</a>
+<a class="sourceLine" id="cb5-40" title="40">  <span class="fu">\draw</span> [-Stealth] (e) edge [out=90,in=270] node[left] {} (kp);</a>
+<a class="sourceLine" id="cb5-41" title="41"></a>
+<a class="sourceLine" id="cb5-42" title="42"><span class="kw">\end</span>{<span class="ex">tikzpicture</span>}</a></code></pre></div>
 </details>
 <p><br></p>
 </div>
 <div id="file" class="section level2">
 <h2>File</h2>
 <p>For a full TeX document use the <code>tex_lines</code> argument instead of the <code>obj</code>. This input bypasses the internal document template that is used for texPreview and renders the contents of the file directly.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tex_preview</span>(<span class="at">tex_lines =</span> tikz_code<span class="sc">$</span>credit_rationing.tex,<span class="at">stem =</span> <span class="st">&#39;tikz-2&#39;</span>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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" width="566" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">tex_preview</span>(<span class="dt">tex_lines =</span> tikz_code<span class="op">$</span>credit_rationing.tex,<span class="dt">stem =</span> <span class="st">&#39;tikz-2&#39;</span>)</a></code></pre></div>
+<div class="figure">
+<img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-6" />
+<p class="caption">plot of chunk unnamed-chunk-6</p>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">unlink</span>(<span class="kw">dirname</span>(objpath), <span class="dt">force =</span> <span class="ot">TRUE</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <details closed>
-<summary>
-<span title="Click to Expand"> Click to view TeX </span>
-</summary>
-<div class="sourceCode" id="cb7"><pre class="sourceCode tex"><code class="sourceCode latex"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">% Author: Rasmus Pank Roulund</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">\documentclass</span>[varwidth, border={ 10 5 10 5 }]{<span class="ex">standalone</span>}</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">tikz</span>}</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">\usepackage</span>{<span class="ex">verbatim</span>}</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">comment</span>}</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">:Title: Credit rationing</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">An illustration inspired by a figure in Stiglitz, J.E. and Greenwald, B. (2003). `Towards a New Paradigm in Monetary Economics`__.</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">.. __: http://books.google.com/books?id=dZrI_dHoKgUC&amp;dq=Towards+a+new+paradigm+for+monetary+economics&amp;source=bn&amp;ei=fDKXSbmrJMaC-gbQ_Pj8CA&amp;sa=X&amp;oi=book_result&amp;resnum=4&amp;ct=book-ref-page-link&amp;cad=one-book-with-thumbnail</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">\end</span>{<span class="ex">comment</span>}</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">\usetikzlibrary</span>{arrows,calc}</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="fu">\tikzset</span>{</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">%Define standard arrow tip</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>&gt;=stealth&#39;,</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">%Define style for different line styles</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>help lines/.style={dashed, thick},</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>axis/.style={&lt;-&gt;},</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>important line/.style={thick},</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>connection/.style={thick, dotted},</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="kw">\begin</span>{<span class="ex">document</span>}</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\begin</span>{<span class="ex">tikzpicture</span>}[scale=1]</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Axis</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\coordinate</span> (y) at (0,5);</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\coordinate</span> (x) at (5,0);</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span>[&lt;-&gt;] (y) node[above] {<span class="ss">$r$</span>} -- (0,0) --  (x) node[right]</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{EV}$</span>};</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">% A grid can be useful when defining coordinates</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">% \draw[step=1mm, gray, thin] (0,0) grid (5,5); </span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">% \draw[step=5mm, black] (0,0) grid (5,5); </span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Let us define some coordinates</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\path</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    coordinate (start) at (0,4)</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    coordinate (c1) at +(5,3)</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    coordinate (c2) at +(5,1.75)</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    coordinate (slut) at (2.7,.5)</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    coordinate (top) at (4.2,2);</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\draw</span>[important line] (start) .. controls (c1) and (c2) .. (slut);</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Help coordinates for drawing the curve</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">% \filldraw [black] </span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">% (start) circle (2pt)</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">% (c1) circle (2pt)</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">% (c2) circle (2pt)</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">% (slut) circle (2pt)</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">\filldraw</span> [black] </span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>     (top) circle (2pt) node[above right, black] {<span class="ss">$Q$</span>};</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>     <span class="co">% We start the second graph</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>     <span class="kw">\begin</span>{<span class="ex">scope</span>}[xshift=6cm]</span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>       <span class="co">% Axis</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>      <span class="fu">\coordinate</span> (y2) at (0,5);</span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>      <span class="fu">\coordinate</span> (x2) at (5,0);</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">\draw</span>[axis] (y2) node[above] {<span class="ss">$r$</span>} -- (0,0) --  (x2) node[right] {<span class="ss">$L$</span>};</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>      <span class="co">% Define some coodinates</span></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>     <span class="fu">\path</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>     let</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>     <span class="fu">\p</span>1=(top)</span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>     in</span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>     coordinate (sstart) at (1,.5) </span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>     coordinate (sslut) at (4, 4.5)</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>     coordinate (dstart) at (4,.5)</span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>     coordinate (dslut) at (1,4.5)</span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="co">% Intersection 1</span></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>     coordinate (int) at  (intersection cs:</span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>       first line={(sstart)--(sslut)},</span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>       second line={(dstart)--(dslut)})</span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="co">% Intersection 2</span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    coordinate (int2) at  (intersection cs:</span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>       first line={(top)--(<span class="ss">$(10,</span><span class="sc">\y</span><span class="ss">1)$</span>)},</span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>       second line={(dstart)--(dslut)})</span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="co">% Intersection 3</span></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>    coordinate (int3) at  (intersection cs:</span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>       first line={(top)--(<span class="ss">$(10,</span><span class="sc">\y</span><span class="ss">1)$</span>)},</span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>       second line={(sstart)--(sslut)});</span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="co">% Draw the lines</span></span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>     <span class="fu">\draw</span>[important line] (sstart) -- (sslut) node[above right] {<span class="ss">$S$</span>}</span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>       (dstart) -- (dslut)  node[above left] {<span class="ss">$D$</span>};</span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>     <span class="fu">\draw</span>[connection] let <span class="fu">\p</span>1=(int2), <span class="fu">\p</span>2=(int3) in </span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>     (int2)--(<span class="fu">\x</span>1,0) node[below] {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{L_D}$</span>}</span>
-<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>     (int3)--(<span class="fu">\x</span>2,0) node[below] {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{L_S}$</span>};</span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>      <span class="kw">\end</span>{<span class="ex">scope</span>}</span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="co">%Finally, connect the two graphs</span></span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>     <span class="fu">\draw</span>[connection] let <span class="fu">\p</span>1=(top), <span class="fu">\p</span>2=(x2) in (0,<span class="fu">\y</span>1) node[left]</span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>     {<span class="ss">$r^*$</span>} -- (<span class="fu">\x</span>2, <span class="fu">\y</span>1);</span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>    <span class="kw">\end</span>{<span class="ex">tikzpicture</span>}</span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  <span class="kw">\end</span>{<span class="ex">document</span>}</span></code></pre></div>
+<p><summary> <span title="Click to Expand"> Click to view TeX </span> </summary></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode tex"><code class="sourceCode latex"><a class="sourceLine" id="cb8-1" title="1"></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="co">% Author: Rasmus Pank Roulund</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="bu">\documentclass</span>[varwidth, border={ 10 5 10 5 }]{<span class="ex">standalone</span>}</a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="bu">\usepackage</span>{<span class="ex">tikz</span>}</a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="bu">\usepackage</span>{<span class="ex">verbatim</span>}</a>
+<a class="sourceLine" id="cb8-6" title="6"></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="kw">\begin</span>{<span class="ex">comment</span>}</a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">:Title: Credit rationing</span></a>
+<a class="sourceLine" id="cb8-9" title="9"></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">An illustration inspired by a figure in Stiglitz, J.E. and Greenwald, B. (2003). `Towards a New Paradigm in Monetary Economics`__.</span></a>
+<a class="sourceLine" id="cb8-11" title="11"></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">.. __: http://books.google.com/books?id=dZrI_dHoKgUC&amp;dq=Towards+a+new+paradigm+for+monetary+economics&amp;source=bn&amp;ei=fDKXSbmrJMaC-gbQ_Pj8CA&amp;sa=X&amp;oi=book_result&amp;resnum=4&amp;ct=book-ref-page-link&amp;cad=one-book-with-thumbnail</span></a>
+<a class="sourceLine" id="cb8-13" title="13"></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="kw">\end</span>{<span class="ex">comment</span>}</a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="fu">\usetikzlibrary</span>{arrows,calc}</a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="fu">\tikzset</span>{</a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">%Define standard arrow tip</span></a>
+<a class="sourceLine" id="cb8-18" title="18">&gt;=stealth&#39;,</a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co">%Define style for different line styles</span></a>
+<a class="sourceLine" id="cb8-20" title="20">help lines/.style={dashed, thick},</a>
+<a class="sourceLine" id="cb8-21" title="21">axis/.style={&lt;-&gt;},</a>
+<a class="sourceLine" id="cb8-22" title="22">important line/.style={thick},</a>
+<a class="sourceLine" id="cb8-23" title="23">connection/.style={thick, dotted},</a>
+<a class="sourceLine" id="cb8-24" title="24">}</a>
+<a class="sourceLine" id="cb8-25" title="25"><span class="kw">\begin</span>{<span class="ex">document</span>}</a>
+<a class="sourceLine" id="cb8-26" title="26">  <span class="kw">\begin</span>{<span class="ex">tikzpicture</span>}[scale=1]</a>
+<a class="sourceLine" id="cb8-27" title="27">    <span class="co">% Axis</span></a>
+<a class="sourceLine" id="cb8-28" title="28">    <span class="fu">\coordinate</span> (y) at (0,5);</a>
+<a class="sourceLine" id="cb8-29" title="29">    <span class="fu">\coordinate</span> (x) at (5,0);</a>
+<a class="sourceLine" id="cb8-30" title="30">    <span class="fu">\draw</span>[&lt;-&gt;] (y) node[above] {<span class="ss">$r$</span>} -- (0,0) --  (x) node[right]</a>
+<a class="sourceLine" id="cb8-31" title="31">    {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{EV}$</span>};</a>
+<a class="sourceLine" id="cb8-32" title="32">    <span class="co">% A grid can be useful when defining coordinates</span></a>
+<a class="sourceLine" id="cb8-33" title="33">    <span class="co">% \draw[step=1mm, gray, thin] (0,0) grid (5,5); </span></a>
+<a class="sourceLine" id="cb8-34" title="34">    <span class="co">% \draw[step=5mm, black] (0,0) grid (5,5); </span></a>
+<a class="sourceLine" id="cb8-35" title="35"></a>
+<a class="sourceLine" id="cb8-36" title="36">    <span class="co">% Let us define some coordinates</span></a>
+<a class="sourceLine" id="cb8-37" title="37">    <span class="fu">\path</span></a>
+<a class="sourceLine" id="cb8-38" title="38">    coordinate (start) at (0,4)</a>
+<a class="sourceLine" id="cb8-39" title="39">    coordinate (c1) at +(5,3)</a>
+<a class="sourceLine" id="cb8-40" title="40">    coordinate (c2) at +(5,1.75)</a>
+<a class="sourceLine" id="cb8-41" title="41">    coordinate (slut) at (2.7,.5)</a>
+<a class="sourceLine" id="cb8-42" title="42">    coordinate (top) at (4.2,2);</a>
+<a class="sourceLine" id="cb8-43" title="43"></a>
+<a class="sourceLine" id="cb8-44" title="44">    <span class="fu">\draw</span>[important line] (start) .. controls (c1) and (c2) .. (slut);</a>
+<a class="sourceLine" id="cb8-45" title="45">    <span class="co">% Help coordinates for drawing the curve</span></a>
+<a class="sourceLine" id="cb8-46" title="46">    <span class="co">% \filldraw [black] </span></a>
+<a class="sourceLine" id="cb8-47" title="47">    <span class="co">% (start) circle (2pt)</span></a>
+<a class="sourceLine" id="cb8-48" title="48">    <span class="co">% (c1) circle (2pt)</span></a>
+<a class="sourceLine" id="cb8-49" title="49">    <span class="co">% (c2) circle (2pt)</span></a>
+<a class="sourceLine" id="cb8-50" title="50">    <span class="co">% (slut) circle (2pt)</span></a>
+<a class="sourceLine" id="cb8-51" title="51">    <span class="fu">\filldraw</span> [black] </a>
+<a class="sourceLine" id="cb8-52" title="52">     (top) circle (2pt) node[above right, black] {<span class="ss">$Q$</span>};</a>
+<a class="sourceLine" id="cb8-53" title="53"></a>
+<a class="sourceLine" id="cb8-54" title="54">     <span class="co">% We start the second graph</span></a>
+<a class="sourceLine" id="cb8-55" title="55">     <span class="kw">\begin</span>{<span class="ex">scope</span>}[xshift=6cm]</a>
+<a class="sourceLine" id="cb8-56" title="56">       <span class="co">% Axis</span></a>
+<a class="sourceLine" id="cb8-57" title="57">      <span class="fu">\coordinate</span> (y2) at (0,5);</a>
+<a class="sourceLine" id="cb8-58" title="58">      <span class="fu">\coordinate</span> (x2) at (5,0);</a>
+<a class="sourceLine" id="cb8-59" title="59">      <span class="fu">\draw</span>[axis] (y2) node[above] {<span class="ss">$r$</span>} -- (0,0) --  (x2) node[right] {<span class="ss">$L$</span>};</a>
+<a class="sourceLine" id="cb8-60" title="60">      <span class="co">% Define some coodinates</span></a>
+<a class="sourceLine" id="cb8-61" title="61">     <span class="fu">\path</span></a>
+<a class="sourceLine" id="cb8-62" title="62">     let</a>
+<a class="sourceLine" id="cb8-63" title="63">     <span class="fu">\p</span>1=(top)</a>
+<a class="sourceLine" id="cb8-64" title="64">     in</a>
+<a class="sourceLine" id="cb8-65" title="65">     coordinate (sstart) at (1,.5) </a>
+<a class="sourceLine" id="cb8-66" title="66">     coordinate (sslut) at (4, 4.5)</a>
+<a class="sourceLine" id="cb8-67" title="67">     coordinate (dstart) at (4,.5)</a>
+<a class="sourceLine" id="cb8-68" title="68">     coordinate (dslut) at (1,4.5)</a>
+<a class="sourceLine" id="cb8-69" title="69"><span class="co">% Intersection 1</span></a>
+<a class="sourceLine" id="cb8-70" title="70">     coordinate (int) at  (intersection cs:</a>
+<a class="sourceLine" id="cb8-71" title="71">       first line={(sstart)--(sslut)},</a>
+<a class="sourceLine" id="cb8-72" title="72">       second line={(dstart)--(dslut)})</a>
+<a class="sourceLine" id="cb8-73" title="73"><span class="co">% Intersection 2</span></a>
+<a class="sourceLine" id="cb8-74" title="74">    coordinate (int2) at  (intersection cs:</a>
+<a class="sourceLine" id="cb8-75" title="75">       first line={(top)--(<span class="ss">$(10,</span><span class="sc">\y</span><span class="ss">1)$</span>)},</a>
+<a class="sourceLine" id="cb8-76" title="76">       second line={(dstart)--(dslut)})</a>
+<a class="sourceLine" id="cb8-77" title="77"><span class="co">% Intersection 3</span></a>
+<a class="sourceLine" id="cb8-78" title="78">    coordinate (int3) at  (intersection cs:</a>
+<a class="sourceLine" id="cb8-79" title="79">       first line={(top)--(<span class="ss">$(10,</span><span class="sc">\y</span><span class="ss">1)$</span>)},</a>
+<a class="sourceLine" id="cb8-80" title="80">       second line={(sstart)--(sslut)});</a>
+<a class="sourceLine" id="cb8-81" title="81"><span class="co">% Draw the lines</span></a>
+<a class="sourceLine" id="cb8-82" title="82">     <span class="fu">\draw</span>[important line] (sstart) -- (sslut) node[above right] {<span class="ss">$S$</span>}</a>
+<a class="sourceLine" id="cb8-83" title="83">       (dstart) -- (dslut)  node[above left] {<span class="ss">$D$</span>};</a>
+<a class="sourceLine" id="cb8-84" title="84">     <span class="fu">\draw</span>[connection] let <span class="fu">\p</span>1=(int2), <span class="fu">\p</span>2=(int3) in </a>
+<a class="sourceLine" id="cb8-85" title="85">     (int2)--(<span class="fu">\x</span>1,0) node[below] {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{L_D}$</span>}</a>
+<a class="sourceLine" id="cb8-86" title="86">     (int3)--(<span class="fu">\x</span>2,0) node[below] {<span class="ss">$</span><span class="sc">\mathit</span><span class="ss">{L_S}$</span>};</a>
+<a class="sourceLine" id="cb8-87" title="87">      <span class="kw">\end</span>{<span class="ex">scope</span>}</a>
+<a class="sourceLine" id="cb8-88" title="88"><span class="co">%Finally, connect the two graphs</span></a>
+<a class="sourceLine" id="cb8-89" title="89">     <span class="fu">\draw</span>[connection] let <span class="fu">\p</span>1=(top), <span class="fu">\p</span>2=(x2) in (0,<span class="fu">\y</span>1) node[left]</a>
+<a class="sourceLine" id="cb8-90" title="90">     {<span class="ss">$r^*$</span>} -- (<span class="fu">\x</span>2, <span class="fu">\y</span>1);</a>
+<a class="sourceLine" id="cb8-91" title="91">    <span class="kw">\end</span>{<span class="ex">tikzpicture</span>}</a>
+<a class="sourceLine" id="cb8-92" title="92">  <span class="kw">\end</span>{<span class="ex">document</span>}</a></code></pre></div>
 </details>
 <p><br></p>
 </div>

@@ -1,13 +1,23 @@
-## ---- include = FALSE---------------------------------------------------------
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+## knitr::kable(head(iris),format = 'latex',booktabs = TRUE)
 
-## ----setup--------------------------------------------------------------------
-library(texPreview)
-dir.create('images',showWarnings = FALSE)
+## knitr::kable(head(iris),format = 'latex',booktabs = TRUE)
 
-## -----------------------------------------------------------------------------
-list.files('images')
+## \begin{tabular}{llr}
+## \hline
+## \multicolumn{2}{c}{Item} \\
+## \cline{1-2}
+## Animal    & Description & Price (\$) \\
+## \hline
+## Gnat      & per gram    & 13.65      \\
+##           & each        & 0.01       \\
+## Gnu       & stuffed     & 92.50      \\
+## Emu       & stuffed     & 33.33      \\
+## Armadillo & frozen      & 8.99       \\
+## \hline
+## \end{tabular}
 
+## knitr::kable(head(iris),format = 'latex',booktabs = TRUE)
+
+## knitr::kable(head(iris),format = 'latex',booktabs = TRUE)
+
+## knitr::kable(head(iris),format = 'latex',booktabs = TRUE)
